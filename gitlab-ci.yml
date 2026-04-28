@@ -1,0 +1,9 @@
+####################################
+##    SECURITY PART FOR SANDBOX   ##
+####################################
+include:
+  - component: gitlab.biocad.ru/iac/ci-components/security/secret-detection/secret-detection@2.0.0
+  - component: gitlab.biocad.ru/iac/ci-components/security/kics/kics@1.0.0
+####################################
+stages: [secrets, lint]
+####################################
