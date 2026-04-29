@@ -905,3 +905,51 @@ curl -X POST http://localhost:3000/api/search \
 # #   2 0 2 6 - 0 4 - 2 9 :   T A S K - 0 2   -   E x p a n d e d   s y n t h e t i c   d e m o - d a t a  
  A d d e d   3   n e w   i n t e r n a l   d o c u m e n t s   ( S O P - 0 0 5 ,   S O P - 0 0 6 ,   S O P - 0 0 7 )   a n d   I C H   Q 9   r e q u i r e m e n t s   s e t   w i t h   1 2   r e q u i r e m e n t s   d e m o n s t r a t i n g   c o v e r e d / p a r t i a l / g a p   s c e n a r i o s .  
  
+---
+
+## 2026-04-29: TASK-03 — Vercel Deployment
+
+### Deployment Process
+
+1. **Pushed to GitHub:**
+   - Added GitHub remote: https://github.com/rakshasa1991/AI-Regulatory-Requirements-Matcher 
+   - All commits pushed successfully
+
+2. **Fixed Vercel Build Issues:**
+
+   **Issue 1: Dynamic API Routes**
+   - Added export const dynamic = 'force-dynamic' to all API routes with dynamic parameters
+   
+   **Issue 2: Next.js 15 params API**
+   - Updated all route handlers to use wait context.params (Next.js 15 changed params to Promise)
+   
+   **Issue 3: Prisma Client Initialization**
+   - Downgraded Prisma from 6.10.1 to 5.20.0 for Vercel compatibility
+   - Added prisma generate to build command in package.json
+   
+   **Issue 4: SSL Certificate Errors (local)**
+   - Used --use-system-ca flag for local Prisma operations
+
+3. **Created ercel.json** for proper Next.js deployment configuration
+
+4. **Environment Variables Setup:**
+   - Added to Vercel Dashboard > Settings > Environment Variables
+
+5. **Database Migration:**
+   - Applied migrations: 
+px prisma migrate deploy 
+   - Seed data loaded: 
+pm run db:seed 
+
+### Final Result
+
+? **Deployment successful:** https://ai-regulatory-requirements-matcher.vercel.app
+? **Database connected:** Prisma Data Cloud
+? **Seed data loaded:** 10 documents, 3 requirement sets, 25+ mappings, gap reports
+
+### Key Lessons Learned
+
+1. **Always use dynamic = 'force-dynamic'** for API routes with database queries on Vercel
+2. **Prisma 5.x is more stable** on Vercel than 6.x/7.x
+3. **Include prisma generate in build command** to ensure client is generated during deployment
+4. **Next.js 15 requires wait context.params** for dynamic route handlers

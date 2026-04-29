@@ -22,6 +22,7 @@ AI-powered assistant for mapping regulatory requirements to SOPs and identifying
 - **Next.js API Routes** — серверные endpoints
 - **Prisma** 5.20.0 — ORM для PostgreSQL
 - **OpenAI SDK** 4.67.0 — интеграция с OpenRouter AI
+- **Prisma Client** — генерируется во время build на Vercel
 
 ### AI
 - **OpenRouter** — доступ к GPT-4o-mini и другим моделям
@@ -32,8 +33,8 @@ AI-powered assistant for mapping regulatory requirements to SOPs and identifying
 - **Testing Library** — тестирование компонентов
 
 ### DevOps
-- **Docker** & **docker-compose** — контейнеризация
-- **GitLab CI** — CI/CD pipeline
+- **Docker** & **docker-compose** — контейнеризация (локальная разработка)
+- **Vercel** — production деплой
 
 ## Архитектура
 
@@ -90,6 +91,7 @@ Next.js (App Router) + Prisma ORM + PostgreSQL + OpenRouter AI
 | `POSTGRES_USER` | Нет | Пользователь PostgreSQL (default: regmatch) |
 | `POSTGRES_PASSWORD` | **Да** | Пароль PostgreSQL |
 | `POSTGRES_DB` | Нет | Имя базы данных (default: regmatch) |
+| `PRISMA_DATABASE_URL` | Нет | Альтернативная строка подключения для Prisma |
 
 ## Локальный запуск
 
@@ -144,7 +146,41 @@ docker compose up --build
 
 ## Деплой
 
-### Dokploy
+### Vercel (Production)
+
+Проект деплоится на Vercel с автоматической генерацией Prisma Client.
+
+**URL приложения:** https://ai-regulatory-requirements-matcher.vercel.app
+
+#### Требования для деплоя:
+
+1. **Подключить GitHub репозиторий** в Vercel Dashboard
+2. **Добавить переменные окружения:**
+   - `DATABASE_URL` — строка подключения к PostgreSQL (Prisma Data Cloud или другая БД)
+   - `OPENROUTER_API_KEY` — API ключ OpenRouter
+   - `NEXT_PUBLIC_APP_URL` — URL приложения после деплоя
+   - `OPENROUTER_MODEL` — модель (опционально, default: openai/gpt-4o-mini)
+
+3. **Запустить миграции** после первого деплоя:
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+4. **Загрузить seed-данные** (опционально):
+   ```bash
+   npx prisma db seed
+   ```
+
+#### Build Command
+
+В `package.json` настроен:
+```json
+"build": "prisma generate && next build"
+```
+
+Это гарантирует, что Prisma Client генерируется во время build на Vercel.
+
+### Dokploy (Self-hosted)
 
 Для деплоя на Dokploy см. [DEPLOY.md](./DEPLOY.md)
 
