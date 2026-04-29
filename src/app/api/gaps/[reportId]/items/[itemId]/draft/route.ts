@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateDraftResponse } from '@/lib/ai-gaps'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest, { params }: { params: { reportId: string; itemId: string } }) {
   try {
     const { itemId } = params

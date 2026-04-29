@@ -3,6 +3,8 @@ import { db } from '@/lib/db';
 import { bulkUpdateRequirementsSchema } from '@/lib/validators';
 import { CoverageStatus, Criticality, RequirementCategory } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }

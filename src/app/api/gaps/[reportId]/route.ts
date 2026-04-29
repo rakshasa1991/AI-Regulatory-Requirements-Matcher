@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getGapReport } from '@/lib/ai-gaps'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest, { params }: { params: { reportId: string } }) {
   try {
     const { reportId } = params
