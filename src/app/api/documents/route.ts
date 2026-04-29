@@ -3,6 +3,8 @@ import { db } from '@/lib/db';
 import { createDocumentSchema, updateDocumentSchema } from '@/lib/validators';
 import { chunkText } from '@/lib/chunker';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
