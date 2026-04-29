@@ -3,6 +3,8 @@ import { db } from '@/lib/db'
 import { MappingRunSchema } from '@/lib/validators'
 import { runMapping } from '@/lib/ai-mapping'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
   let setIdForLog = 'unknown'
