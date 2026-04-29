@@ -7,6 +7,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
+RUN npm install prisma@6.10.1 @prisma/client@6.10.1
 COPY . .
 RUN npx prisma generate
 RUN npm run build
