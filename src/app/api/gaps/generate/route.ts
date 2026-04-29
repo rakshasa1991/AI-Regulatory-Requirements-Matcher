@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { generateGapReport } from '@/lib/ai-gaps'
 import { z } from 'zod'
 
+export const dynamic = 'force-dynamic'
+
 const generateGapSchema = z.object({
   requirementSetId: z.string().cuid(),
 })
